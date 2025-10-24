@@ -99,6 +99,7 @@ export default function Home() {
     activeArchive,
     createAndActivateArchive,
     importArchive,
+    importArchiveFromUrl,
     exportArchive,
   } = useArchive();
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
@@ -232,6 +233,7 @@ export default function Home() {
         <WelcomeScreen
           onImportClick={handleImportClick}
           onNewPostClick={openNewPostEditor}
+          onImportFromUrl={(url) => importArchiveFromUrl(url)}
         />
         <input
           type="file"

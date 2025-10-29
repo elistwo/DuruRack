@@ -1,13 +1,13 @@
-# PeerShare
+# DuruRack
 
-PeerShare es una aplicación de blogging descentralizada y local-first que te permite crear, editar y compartir tu contenido sin depender de servidores centralizados. Tú tienes el control total de tus datos.
+DuruRack es una aplicación de blogging descentralizada y local-first que te permite crear, editar y compartir tu contenido sin depender de servidores centralizados. Tú tienes el control total de tus datos.
 
 ## ✨ Conceptos Clave
 
 - **Archivos (Archives):** Un archivo es una colección autocontenida de publicaciones, similar a un blog o un cuaderno personal. Puedes tener múltiples archivos para diferentes temas.
 - **Publicaciones (Posts):** Cada publicación es un documento individual dentro de un archivo. Están escritas en Markdown, permitiendo un formato de texto enriquecido de manera sencilla.
 - **Local-First:** Todos tus datos (archivos y publicaciones) se guardan directamente en el `localStorage` de tu navegador. No se envía nada a un servidor externo, garantizando tu privacidad.
-- **Portabilidad Total:** Puedes exportar cualquier archivo como un único archivo `.json`. Este archivo contiene todas tus publicaciones y se puede importar en cualquier otro dispositivo que ejecute PeerShare, permitiéndote mover o hacer una copia de seguridad de tu contenido fácilmente.
+- **Portabilidad Total:** Puedes exportar cualquier archivo como un único archivo `.json`. Este archivo contiene todas tus publicaciones y se puede importar en cualquier otro dispositivo que ejecute DuruRack, permitiéndote mover o hacer una copia de seguridad de tu contenido fácilmente.
 
 ## 🚀 Características
 

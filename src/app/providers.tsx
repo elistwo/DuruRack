@@ -4,6 +4,7 @@
 import { createContext, useContext, ReactNode } from "react";
 import { ArchiveProvider as ActualArchiveProvider, useArchive as useActualArchive } from "@/hooks/use-archive";
 import { ThemeProvider } from "./theme-provider";
+import { SearchProvider } from "@/components/search-provider";
 
 // This file is being deprecated in favor of individual providers and hooks.
 // For now, it will re-export the new provider and hook.
@@ -19,7 +20,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
             disableTransitionOnChange
         >
             <ActualArchiveProvider>
-                {children}
+                <SearchProvider>
+                    {children}
+                </SearchProvider>
             </ActualArchiveProvider>
         </ThemeProvider>
     );

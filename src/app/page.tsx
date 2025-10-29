@@ -1,7 +1,6 @@
 
 "use client";
-
-import { useState, useMemo, useRef, ChangeEvent, useEffect } from "react";
+import { useMemo, useRef, ChangeEvent, useEffect, useState } from "react";
 import {
   Search,
   Book,
@@ -12,7 +11,6 @@ import {
   Moon,
   Library,
   Settings,
-  X,
   Cog,
 } from "lucide-react";
 import { useArchive } from "@/hooks/use-archive";
@@ -37,6 +35,10 @@ import { PostModalView } from "@/components/post-modal-view";
 import { PortalSidebar } from "@/components/portal-sidebar";
 import { cn } from "@/lib/utils";
 import { TagCloud } from "@/components/tag-cloud";
+import { useSearch } from "@/components/search-provider";
+import Header from "@/components/header";
+import MainContent from "@/components/main-content";
+import SearchBar from "@/components/search-bar";
 
 function ThemeToggle({ side }: { side: 'left' | 'right' | 'top' | 'bottom' }) {
   const { theme, setTheme } = useTheme();
@@ -73,26 +75,6 @@ function ThemeToggle({ side }: { side: 'left' | 'right' | 'top' | 'bottom' }) {
   );
 }
 
-// Reusable SearchBar
-const SearchBarComponent = ({
-  searchQuery,
-  setSearchQuery,
-}: {
-  searchQuery: string;
-  setSearchQuery: (q: string) => void;
-}) => (
-  <div className="relative w-full max-w-xl">
-    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-    <Input
-      type="search"
-      placeholder="Search posts by title, content, or tag..."
-      className="w-full rounded-full bg-card pl-12 h-12 text-base shadow-lg"
-      value={searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)}
-    />
-  </div>
-);
-
 export default function Home() {
   const {
     archives,
@@ -102,11 +84,11 @@ export default function Home() {
     importArchiveFromUrl,
     exportArchive,
   } = useArchive();
+  const { searchQuery, setSearchQuery } = useSearch();
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [viewingPostInModal, setViewingPostInModal] = useState<Post | null>(
     null
   );
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isEditorOpen, setEditorOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
@@ -262,141 +244,6 @@ export default function Home() {
   }
 
   // --- Reusable Components ---
-
-  const HeaderComponent = () =>
-    showTitle && activeArchive ? (
-      <div
-        className={cn(
-          "space-y-4 py-8 md:py-12",
-          headerPosition === 'hero' && "bg-card rounded-3xl mb-8"
-        )}
-      >
-        <div
-          className={cn(
-            "flex flex-col gap-2 container mx-auto px-4 sm:px-6 lg:px-8",
-            headerAlignment === 'left' && 'items-start text-left',
-            headerAlignment === 'center' && 'items-center text-center',
-            headerAlignment === 'right' && 'items-end text-right'
-          )}
-        >
-          <h1 className="text-4xl font-bold text-foreground">
-            {activeArchive.name}
-          </h1>
-          <p className="text-muted-foreground max-w-2xl">
-            {activeArchive.description}
-          </p>
-        </div>
-
-        {(searchBarPosition === 'header' ||
-          searchBarPosition === 'header-left' ||
-          searchBarPosition === 'header-right') && (
-          <div
-            className={cn(
-              "flex pt-4 container mx-auto px-4 sm:px-6 lg:px-8",
-              searchBarPosition === 'header' && 'justify-center',
-              searchBarPosition === 'header-left' && 'justify-start',
-              searchBarPosition === 'header-right' && 'justify-end'
-            )}
-          >
-            <SearchBarComponent
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
-          </div>
-        )}
-      </div>
-    ) : null;
-
-  const MainContent = () => (
-    <>
-      {(searchBarPosition === 'top-center' ||
-        searchBarPosition === 'top-left' ||
-        searchBarPosition === 'top-right') && (
-        <div
-          className={cn(
-            "mb-6 flex",
-            searchBarPosition === 'top-center' && 'justify-center',
-            searchBarPosition === 'top-left' && 'justify-start',
-            searchBarPosition === 'top-right' && 'justify-end'
-          )}
-        >
-          <SearchBarComponent
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-        </div>
-      )}
-
-      {tagCloudOptions.show !== false &&
-        tagCloudOptions.position === 'top-of-content' && (
-          <div className="mb-8">
-            <TagCloud
-              title={tagCloudOptions.title}
-              tags={allTags}
-              selectedTag={selectedTag}
-              onTagSelect={setSelectedTag}
-            />
-          </div>
-        )}
-
-      {filteredPosts.length > 0 ? (
-        <div
-          className={cn(
-            "grid grid-cols-1 gap-6 sm:grid-cols-2",
-            layout.startsWith('portal')
-              ? "lg:grid-cols-2 xl:grid-cols-3"
-              : "md:grid-cols-3 xl:grid-cols-4"
-          )}
-        >
-          {filteredPosts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              onSelect={() => setSelectedPostId(post.id)}
-              onExpand={() => setViewingPostInModal(post)}
-              displayOptions={activeArchive?.displayOptions}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="flex h-[calc(100vh-20rem)] flex-col items-center justify-center text-center">
-          <div className="mx-auto max-w-md">
-            {searchQuery || selectedTag ? (
-              <>
-                <Search className="mx-auto mb-4 size-16 text-muted-foreground" />
-                <h2 className="text-2xl font-semibold">No Results Found</h2>
-                <p className="mt-2 text-muted-foreground">
-                  Your search or filter did not return any results.
-                </p>
-              </>
-            ) : (
-              <>
-                <Book className="mx-auto mb-4 size-16 text-muted-foreground" />
-                <h2 className="text-2xl font-semibold">
-                  This archive is empty
-                </h2>
-                <p className="mt-2 text-muted-foreground">
-                  Click the 'New Post' button to create your first post.
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      {tagCloudOptions.show !== false &&
-        tagCloudOptions.position === 'bottom-of-content' && (
-          <div className="mt-12">
-            <TagCloud
-              title={tagCloudOptions.title}
-              tags={allTags}
-              selectedTag={selectedTag}
-              onTagSelect={setSelectedTag}
-            />
-          </div>
-        )}
-    </>
-  );
 
   const ActionButtons = () => {
     const [fabOpen, setFabOpen] = useState(false);
@@ -633,15 +480,7 @@ export default function Home() {
             <div
               className={cn("relative flex gap-2 items-center", fabDirectionClass)}
             >
-              {searchBarPosition === 'floating-bottom-right' &&
-                actionButtonsPosition === 'bottom-right' && (
-                  <div className="w-full max-w-sm mb-2">
-                    <SearchBarComponent
-                      searchQuery={searchQuery}
-                      setSearchQuery={setSearchQuery}
-                    />
-                  </div>
-                )}
+
               {buttonListElements}
             </div>
           )}
@@ -657,7 +496,7 @@ export default function Home() {
       <ArchiveSidebar open={isSidebarOpen} onOpenChange={setSidebarOpen} />
       <ArchiveSettings open={isSettingsOpen} onOpenChange={setSettingsOpen} />
 
-      {headerPosition === 'top' && <HeaderComponent />}
+      {headerPosition === 'top' && <Header showTitle={showTitle} activeArchive={activeArchive} headerPosition={headerPosition} headerAlignment={headerAlignment} searchBarPosition={searchBarPosition} />}
 
       <main className="flex-1 w-full container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {layout.startsWith('portal') ? (
@@ -684,13 +523,13 @@ export default function Home() {
                   )}
                 </aside>
                 <div>
-                  <MainContent />
+                  <MainContent searchBarPosition={searchBarPosition} tagCloudOptions={tagCloudOptions} allTags={allTags} selectedTag={selectedTag} setSelectedTag={setSelectedTag} filteredPosts={filteredPosts} layout={layout} activeArchive={activeArchive} setSelectedPostId={setSelectedPostId} setViewingPostInModal={setViewingPostInModal} searchQuery={searchQuery} />
                 </div>
               </>
             ) : (
               <>
                 <div>
-                  <MainContent />
+                  <MainContent searchBarPosition={searchBarPosition} tagCloudOptions={tagCloudOptions} allTags={allTags} selectedTag={selectedTag} setSelectedTag={setSelectedTag} filteredPosts={filteredPosts} layout={layout} activeArchive={activeArchive} setSelectedPostId={setSelectedPostId} setViewingPostInModal={setViewingPostInModal} searchQuery={searchQuery} />
                 </div>
                 <aside>
                   {activeArchive && activeArchive.posts.length > 0 && (
@@ -709,49 +548,37 @@ export default function Home() {
             )}
           </div>
         ) : (
-          <MainContent />
+          <MainContent searchBarPosition={searchBarPosition} tagCloudOptions={tagCloudOptions} allTags={allTags} selectedTag={selectedTag} setSelectedTag={setSelectedTag} filteredPosts={filteredPosts} layout={layout} activeArchive={activeArchive} setSelectedPostId={setSelectedPostId} setViewingPostInModal={setViewingPostInModal} searchQuery={searchQuery} />
         )}
       </main>
 
       {(headerPosition === 'hero' || headerPosition === 'bottom') && (
-        <HeaderComponent />
+        <Header showTitle={showTitle} activeArchive={activeArchive} headerPosition={headerPosition} headerAlignment={headerAlignment} searchBarPosition={searchBarPosition} />
       )}
+
+      <ActionButtons />
 
       {searchBarPosition === 'floating-top-left' && (
         <div className="fixed top-6 left-6 z-50 w-full max-w-sm">
-          <SearchBarComponent
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
+          <SearchBar />
         </div>
       )}
       {searchBarPosition === 'floating-top-right' && (
         <div className="fixed top-6 right-6 z-50 w-full max-w-sm">
-          <SearchBarComponent
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
+          <SearchBar />
         </div>
       )}
       {searchBarPosition === 'floating-bottom-left' && (
         <div className="fixed bottom-6 left-6 z-50 w-full max-w-sm">
-          <SearchBarComponent
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
+          <SearchBar />
         </div>
       )}
       {searchBarPosition === 'floating-bottom-right' &&
         actionButtonsPosition !== 'bottom-right' && (
           <div className="fixed bottom-6 right-6 z-50 w-full max-w-sm">
-            <SearchBarComponent
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-            />
+            <SearchBar />
           </div>
         )}
-
-      <ActionButtons />
 
       <PostEditor
         isOpen={isEditorOpen}

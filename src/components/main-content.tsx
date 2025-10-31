@@ -8,8 +8,35 @@ import { Input } from './ui/input';
 import { PostCard } from './post-card';
 import { TagCloud } from './tag-cloud';
 import SearchBar from './search-bar';
+import { Archive, Post, TagCloudOptions } from '@/lib/types';
 
-const MainContent = ({ searchBarPosition, tagCloudOptions, allTags, selectedTag, setSelectedTag, filteredPosts, layout, activeArchive, setSelectedPostId, setViewingPostInModal, searchQuery }) => {
+interface MainContentProps {
+  searchBarPosition: string;
+  tagCloudOptions: TagCloudOptions;
+  allTags: string[];
+  selectedTag: string | null;
+  setSelectedTag: (tag: string | null) => void;
+  filteredPosts: Post[];
+  layout: string;
+  activeArchive: Archive | null;
+  setSelectedPostId: (id: string) => void;
+  setViewingPostInModal: (post: Post) => void;
+  searchQuery: string;
+}
+
+const MainContent = ({ 
+  searchBarPosition, 
+  tagCloudOptions, 
+  allTags, 
+  selectedTag, 
+  setSelectedTag, 
+  filteredPosts, 
+  layout, 
+  activeArchive, 
+  setSelectedPostId, 
+  setViewingPostInModal, 
+  searchQuery 
+}: MainContentProps) => {
     return (
         <>
       {(searchBarPosition === 'top-center' ||

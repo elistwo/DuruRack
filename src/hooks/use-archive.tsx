@@ -47,8 +47,8 @@ const defaultDisplayOptions: Required<Archive['displayOptions']> = {
     layout: 'grid',
     cardStyle: 'default',
     imageFit: 'cover',
-    borderRadius: 'lg',
-    searchBarPosition: 'top',
+    borderRadius: 8,
+    searchBarPosition: 'top-center',
     showTitle: true,
     headerPosition: 'top',
     headerAlignment: 'center',
@@ -59,6 +59,20 @@ const defaultDisplayOptions: Required<Archive['displayOptions']> = {
         import: true,
         export: true,
         newPost: true
+    },
+    actionButtonsPosition: 'bottom-right',
+    actionButtonsDisplayMode: 'stacked',
+    imageStyle: 'contained',
+    portalOptions: {
+        title: 'Portal',
+        featuredPostIds: [],
+        postLimit: 10,
+        sidebarOrder: 'posts-tags'
+    },
+    tagCloudOptions: {
+        show: true,
+        position: 'top-of-content',
+        title: 'Tags'
     }
 };
 

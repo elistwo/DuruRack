@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import React from "react";
 import { format } from "date-fns";
 import type { ArchiveDisplayOptions, Post, BorderRadius } from "@/lib/types";
 import { Card, CardTitle, CardFooter } from "@/components/ui/card";
@@ -28,6 +29,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
+import { ClientFormattedDate } from "./ui/client-formatted-date";
 import { useArchive } from "@/hooks/use-archive";
 
 interface PostCardProps {
@@ -37,29 +39,7 @@ interface PostCardProps {
   displayOptions?: ArchiveDisplayOptions;
 }
 
-const ClientFormattedDate = ({
-  dateString,
-  formatString,
-}: {
-  dateString: string;
-  formatString: string;
-}) => {
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null;
-  }
-
-  try {
-    return <>{format(new Date(dateString), formatString)}</>;
-  } catch (e) {
-    return null;
-  }
-};
 
 const getBorderRadiusStyle = (radius: BorderRadius | undefined): React.CSSProperties => {
     if (typeof radius === 'number') {
@@ -530,7 +510,7 @@ const PosterOverlayLayout = ({ post, onSelect, onExpand, displayOptions }: PostC
 };
 
 
-export function PostCard(props: PostCardProps) {
+export const PostCard = React.memo(function PostCard(props: PostCardProps) {
   const { displayOptions } = props;
 
   switch(displayOptions?.cardStyle) {
@@ -543,4 +523,4 @@ export function PostCard(props: PostCardProps) {
     default:
       return <DefaultCardLayout {...props} />;
   }
-}
+});

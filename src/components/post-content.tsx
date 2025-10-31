@@ -8,28 +8,13 @@ import type { Post } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ClientMarkdownRenderer } from "./client-markdown-renderer";
 import { Badge } from "./ui/badge";
+import { ClientFormattedDate } from "./ui/client-formatted-date";
 
 interface PostContentProps {
   post: Post;
 }
 
-const ClientFormattedDate = ({ dateString, formatString }: { dateString: string, formatString: string }) => {
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null;
-  }
-
-  try {
-    return <>{format(new Date(dateString), formatString)}</>;
-  } catch (e) {
-    return null;
-  }
-}
 
 export function PostContent({ post }: PostContentProps) {
   return (
@@ -50,8 +35,8 @@ export function PostContent({ post }: PostContentProps) {
       <CardContent className="p-8 pt-0 flex flex-col">
           {post.tags && post.tags.length > 0 && (
               <div className="w-full max-w-none flex flex-wrap gap-2 mb-8">
-              {post.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="font-medium">{tag}</Badge>
+              {post.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary" className="font-medium">{tag}</Badge>
               ))}
               </div>
           )}

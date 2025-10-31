@@ -6,9 +6,17 @@ import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import { Input } from './ui/input';
 import SearchBar from './search-bar';
+import { Archive } from '@/lib/types';
 
+interface HeaderProps {
+  showTitle: boolean;
+  activeArchive: Archive | null;
+  headerPosition: 'top' | 'hero' | 'bottom';
+  headerAlignment: 'left' | 'center' | 'right';
+  searchBarPosition: string;
+}
 
-const Header = ({ showTitle, activeArchive, headerPosition, headerAlignment, searchBarPosition }) => {
+const Header = ({ showTitle, activeArchive, headerPosition, headerAlignment, searchBarPosition }: HeaderProps) => {
     return (
         showTitle && activeArchive ? (
             <div

@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { TagCloud } from "./tag-cloud";
 import { Separator } from "./ui/separator";
 import { cn } from "@/lib/utils";
+import { ClientFormattedDate } from "./ui/client-formatted-date";
 
 interface PortalSidebarProps {
   posts: Post[];
@@ -20,29 +21,7 @@ interface PortalSidebarProps {
   tagCloudOptions: TagCloudOptions;
 }
 
-const ClientFormattedDate = ({
-  dateString,
-  formatString,
-}: {
-  dateString: string;
-  formatString: string;
-}) => {
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) {
-    return null;
-  }
-
-  try {
-    return <>{format(new Date(dateString), formatString)}</>;
-  } catch (e) {
-    return null;
-  }
-};
 
 
 export function PortalSidebar({ posts, onPostSelect, portalOptions = {}, tags, selectedTag, onTagSelect, tagCloudOptions }: PortalSidebarProps) {

@@ -193,7 +193,7 @@ export function PostEditor({ isOpen, setOpen, post }: PostEditorProps) {
               )}
               {isPreviewable && (
                 <div className="mt-4 aspect-video w-full relative rounded-md overflow-hidden border">
-                    <Image src={previewImageUrl} alt="Preview" fill style={{ objectFit: 'cover' }} />
+                    {previewImageUrl && <Image src={previewImageUrl} alt="Preview" fill style={{ objectFit: 'cover' }} />}
                 </div>
               )}
             </div>

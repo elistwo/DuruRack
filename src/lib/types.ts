@@ -30,6 +30,7 @@ export type PortalOptions = {
   title?: string;
   featuredPostIds?: string[];
   postLimit?: number;
+  limit?: number;
   sidebarOrder?: 'posts-tags' | 'tags-posts';
 };
 

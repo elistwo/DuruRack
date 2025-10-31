@@ -2,19 +2,21 @@
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import { CodeBlock } from './code-block';
+import DOMPurify from 'dompurify';
 
 export interface MarkdownRendererProps {
   content: string;
 }
 
 export const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
+  // Sanitize content to prevent XSS attacks
+  const sanitizedContent = DOMPurify.sanitize(content);
+  
   return (
     <div className="prose dark:prose-invert max-w-none">
       <ReactMarkdown
-        rehypePlugins={[rehypeRaw]}
         remarkPlugins={[remarkGfm]}
         components={{
           pre({ node, children, ...props }) {
@@ -43,7 +45,7 @@ export const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
           },
         }}
       >
-        {content}
+        {sanitizedContent}
       </ReactMarkdown>
     </div>
   );

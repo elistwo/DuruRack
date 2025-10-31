@@ -153,7 +153,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Header Position</Label>
                      <Select
                         value={displayOptions.headerPosition || 'top'}
-                        onValueChange={(value) => handleDisplayOptionChange('headerPosition', value)}
+                        onValueChange={(value: 'top' | 'hero' | 'bottom') => handleDisplayOptionChange('headerPosition', value)}
                         disabled={displayOptions.showTitle === false}
                     >
                         <SelectTrigger>
@@ -171,7 +171,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Header Alignment</Label>
                      <Select
                         value={displayOptions.headerAlignment || 'center'}
-                        onValueChange={(value) => handleDisplayOptionChange('headerAlignment', value)}
+                        onValueChange={(value: 'left' | 'center' | 'right') => handleDisplayOptionChange('headerAlignment', value)}
                         disabled={displayOptions.showTitle === false}
                     >
                         <SelectTrigger>
@@ -195,7 +195,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Search Bar Position</Label>
                      <Select
                         value={displayOptions.searchBarPosition || 'top-center'}
-                        onValueChange={(value) => handleDisplayOptionChange('searchBarPosition', value)}
+                        onValueChange={(value: 'header' | 'header-left' | 'header-right' | 'top-center' | 'top-left' | 'top-right' | 'floating-top-left' | 'floating-top-right' | 'floating-bottom-left' | 'floating-bottom-right') => handleDisplayOptionChange('searchBarPosition', value)}
                     >
                         <SelectTrigger>
                             <SelectValue placeholder="Select search bar position" />
@@ -219,7 +219,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Layout</Label>
                      <Select
                         value={displayOptions.layout || 'grid'}
-                        onValueChange={(value) => handleDisplayOptionChange('layout', value)}
+                        onValueChange={(value: 'grid' | 'portal-left' | 'portal-right') => handleDisplayOptionChange('layout', value)}
                     >
                         <SelectTrigger>
                             <SelectValue placeholder="Select layout" />
@@ -236,7 +236,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Card Style</Label>
                     <RadioGroup 
                         value={displayOptions.cardStyle || 'default'}
-                        onValueChange={(value) => handleDisplayOptionChange('cardStyle', value)}
+                        onValueChange={(value: 'default' | 'default-overlay' | 'poster-classic' | 'poster-overlay') => handleDisplayOptionChange('cardStyle', value)}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="default" id="style-default" />
@@ -261,7 +261,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Image Fit</Label>
                     <RadioGroup
                         value={displayOptions.imageFit || 'cover'}
-                        onValueChange={(value) => handleDisplayOptionChange('imageFit', value)}
+                        onValueChange={(value: 'cover' | 'contain') => handleDisplayOptionChange('imageFit', value)}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="cover" id="fit-cover" />
@@ -278,7 +278,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Image Style</Label>
                     <RadioGroup
                         value={displayOptions.imageStyle || 'contained'}
-                        onValueChange={(value) => handleDisplayOptionChange('imageStyle', value)}
+                        onValueChange={(value: 'contained' | 'full-bleed') => handleDisplayOptionChange('imageStyle', value)}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="contained" id="image-contained" />
@@ -353,7 +353,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                                 <Label>Sidebar Order</Label>
                                 <Select
                                     value={portalOptions.sidebarOrder || 'posts-tags'}
-                                    onValueChange={(value) => handlePortalOptionChange('sidebarOrder', value)}
+                                    onValueChange={(value: 'posts-tags' | 'tags-posts') => handlePortalOptionChange('sidebarOrder', value)}
                                 >
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select order" />
@@ -387,7 +387,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                         <Label>Tag Cloud Position</Label>
                         <Select
                             value={tagCloudOptions.position || 'top-of-content'}
-                            onValueChange={(value) => handleTagCloudOptionChange('position', value)}
+                            onValueChange={(value: 'top-of-content' | 'bottom-of-content' | 'portal-sidebar') => handleTagCloudOptionChange('position', value)}
                             disabled={tagCloudOptions.show === false}
                         >
                             <SelectTrigger>
@@ -418,7 +418,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Action Buttons Position</Label>
                      <Select
                         value={displayOptions.actionButtonsPosition || 'bottom-right'}
-                        onValueChange={(value) => handleDisplayOptionChange('actionButtonsPosition', value)}
+                        onValueChange={(value: 'top-center' | 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left' | 'bottom-center') => handleDisplayOptionChange('actionButtonsPosition', value)}
                     >
                         <SelectTrigger>
                             <SelectValue placeholder="Select action buttons position" />
@@ -437,7 +437,7 @@ export function ArchiveSettings({ open, onOpenChange }: ArchiveSettingsProps) {
                     <Label>Display Mode</Label>
                     <RadioGroup 
                         value={displayOptions.actionButtonsDisplayMode || 'stacked'}
-                        onValueChange={(value) => handleDisplayOptionChange('actionButtonsDisplayMode', value)}
+                        onValueChange={(value: 'stacked' | 'fab') => handleDisplayOptionChange('actionButtonsDisplayMode', value)}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="stacked" id="fab-stacked" />
